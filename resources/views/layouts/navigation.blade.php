@@ -19,6 +19,14 @@
                     <x-nav-link :href="route('upload')" :active="request()->routeIs('upload')">
                         {{ __('Files') }}
                     </x-nav-link>
+
+                    <x-nav-link :href="route('roles')" :active="request()->routeIs('roles')">
+                        {{ __('Roles') }}
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('users')" :active="request()->routeIs('users')">
+                        {{ __('Users') }}
+                    </x-nav-link>
                 </div>
             </div>
 
