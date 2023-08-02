@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -48,3 +49,8 @@ Route::get('/manuscripts/paperNum/search/{paper}',[\App\Http\Controllers\Manuscr
 Route::get('/manuscripts/count',[\App\Http\Controllers\ManuscriptController::class, 'countManuscripts']);
 // Search By Elements
 Route::post('/manuscripts/search',[\App\Http\Controllers\ManuscriptController::class, 'searchByElements']);
+
+Route::group(['middleware' => 'api', 'prefix' => 'auth'], function (){
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('register', [AuthController::class, 'register']);
+});

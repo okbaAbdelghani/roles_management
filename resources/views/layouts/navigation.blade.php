@@ -20,11 +20,11 @@
                         {{ __('Files') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('roles')" :active="request()->routeIs('roles')">
+                    <x-nav-link :href="route('roles.index')" :active="request()->routeIs('roles.index') || request()->routeIs('roles.create') || request()->routeIs('roles.edit') || request()->routeIs('roles.show')">
                         {{ __('Roles') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('users')" :active="request()->routeIs('users')">
+                    <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index') || request()->routeIs('users.create') || request()->routeIs('users.edit') || request()->routeIs('users.show')">
                         {{ __('Users') }}
                     </x-nav-link>
                 </div>
