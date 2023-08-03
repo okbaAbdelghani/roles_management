@@ -18,14 +18,13 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    //https://www.itsolutionstuff.com/post/laravel-10-user-roles-and-permissions-tutorialexample.html
-    // function __construct()
-    // {
-    //      $this->middleware('permission:role-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
-    //      $this->middleware('permission:role-create', ['only' => ['create','store']]);
-    //      $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
-    //      $this->middleware('permission:role-delete', ['only' => ['destroy']]);
-    // }
+    function __construct()
+    {
+         $this->middleware('permission:role-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:role-create', ['only' => ['create','store']]);
+         $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:role-delete', ['only' => ['destroy']]);
+    }
     
     /**
      * Display a listing of the resource.
@@ -81,8 +80,9 @@ class RoleController extends Controller
         $rolePermissions = Permission::join("role_has_permissions","role_has_permissions.permission_id","=","permissions.id")
             ->where("role_has_permissions.role_id",$id)
             ->get();
-    
-        return view('roles.show',compact('role','rolePermissions'));
+
+        $allPermissions = Permission::all();
+        return view('roles.show',compact('role','rolePermissions','allPermissions'));
     }
     
     /**
@@ -94,12 +94,15 @@ class RoleController extends Controller
     public function edit($id): View
     {
         $role = Role::find($id);
-        $permission = Permission::get();
-        $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$id)
-            ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
-            ->all();
-    
-        return view('roles.edit',compact('role','permission','rolePermissions'));
+        $allPermissions = Permission::all();
+        // $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$id)
+        //     ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
+        //     ->all();
+        $rolePermissions = Permission::join("role_has_permissions","role_has_permissions.permission_id","=","permissions.id")
+        ->where("role_has_permissions.role_id",$id)
+        ->get();
+        
+        return view('roles.edit',compact('role','allPermissions','rolePermissions'));
     }
     
     /**
@@ -111,16 +114,16 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id): RedirectResponse
     {
+
         $this->validate($request, [
             'name' => 'required',
-            'permission' => 'required',
+            'permissions' => 'required',
         ]);
     
         $role = Role::find($id);
         $role->name = $request->input('name');
         $role->save();
-    
-        $role->syncPermissions($request->input('permission'));
+        $role->syncPermissions($request->input('permissions'));
     
         return redirect()->route('roles.index')
                         ->with('success','Role updated successfully');

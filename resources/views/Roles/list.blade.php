@@ -33,7 +33,7 @@
                                     Role name
                                 </th>
                                 <th scope="col" class="px-6 py-3">
-                                    Action
+                                    Actions
                                 </th>
                             </tr>
                         </thead>
@@ -54,13 +54,24 @@
                                         {{$role->name}}
                                     </td>
                                     <td class="px-6 py-4">
-                                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                                        @can('role-list')
+                                            <a type="button" href="{{ route('roles.show',['id' => $role->id]) }}" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 hover:cursor-pointer focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Show</a>
+                                        @endcan
+
+                                        @can('role-edit')
+                                            <a type="button" href="{{ route('roles.edit',['id' => $role->id]) }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 hover:cursor-pointer focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Edit</a>
+                                        @endcan
+
+                                        @can('role-delete')
+                                            <a type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 hover:cursor-pointer focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Delete</a>
+                                        @endcan
                                     </td>
                                 </tr>
                             @endforeach
                     
                         </tbody>
                     </table>
+         
                 </div>
             </div>   
         </div>

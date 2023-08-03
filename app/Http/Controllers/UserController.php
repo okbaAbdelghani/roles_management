@@ -50,17 +50,17 @@ class UserController extends Controller
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|same:confirm-password',
-            'role' => 'required'
+            'role_name' => 'required'
         ]);
     
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
     
         $user = User::create($input);
-        $user->assignRole($request->input('role'));
+        $user->assignRole($request->input('role_name'));
     
         return redirect()->route('users.index')
-                        ->with('success','User created successfully');
+                         ->with('success','User created successfully');
     }
 
     /**

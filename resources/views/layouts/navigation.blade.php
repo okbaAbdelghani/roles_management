@@ -16,17 +16,23 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('upload')" :active="request()->routeIs('upload')">
-                        {{ __('Files') }}
-                    </x-nav-link>
+                    @can('files-access')
+                        <x-nav-link :href="route('upload')" :active="request()->routeIs('upload')">
+                            {{ __('Files') }}
+                        </x-nav-link>
+                    @endcan
+                   
+                    @can('roles-access')
+                        <x-nav-link :href="route('roles.index')" :active="request()->routeIs('roles.index') || request()->routeIs('roles.create') || request()->routeIs('roles.edit') || request()->routeIs('roles.show')">
+                            {{ __('Roles') }}
+                        </x-nav-link>
+                    @endcan
 
-                    <x-nav-link :href="route('roles.index')" :active="request()->routeIs('roles.index') || request()->routeIs('roles.create') || request()->routeIs('roles.edit') || request()->routeIs('roles.show')">
-                        {{ __('Roles') }}
-                    </x-nav-link>
-
-                    <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index') || request()->routeIs('users.create') || request()->routeIs('users.edit') || request()->routeIs('users.show')">
-                        {{ __('Users') }}
-                    </x-nav-link>
+                    @can('user-access')
+                        <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index') || request()->routeIs('users.create') || request()->routeIs('users.edit') || request()->routeIs('users.show')">
+                            {{ __('Users') }}
+                        </x-nav-link>
+                    @endcan
                 </div>
             </div>
 

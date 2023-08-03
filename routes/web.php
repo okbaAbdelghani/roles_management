@@ -41,14 +41,18 @@ Route::middleware('auth')->group(function () {
    
     Route::resource('roles', RoleController::class)->names([
         'index','roles.index',
-        'create','roles.create'
+        'create','roles.create',
     ]);
 
     Route::resource('users', UserController::class)->names([
         'index','users.index',
         'create','users.create'
     ]);
+    Route::get('/roles/edit/{id}', [RoleController::class, 'edit'])->name('roles.edit');
+    Route::put('/roles/update/{id}', [RoleController::class, 'update'])->name('roles.update');
     Route::post('roles', [RoleController::class, 'store'])->name('roles.store');
+    Route::get('/roles/{id}', [RoleController::class, 'store'])->name('roles.show');
+   
     Route::post('users', [UserController::class, 'store'])->name('users.store');
     
    
