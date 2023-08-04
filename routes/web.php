@@ -39,21 +39,31 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
    
-    Route::resource('roles', RoleController::class)->names([
-        'index','roles.index',
-        'create','roles.create',
-    ]);
+    // Route::resource('roles', RoleController::class)->names([
+    //     'index','roles.index',
+    //     'create','roles.create',
+    // ]);
 
-    Route::resource('users', UserController::class)->names([
-        'index','users.index',
-        'create','users.create'
-    ]);
     Route::get('/roles/edit/{id}', [RoleController::class, 'edit'])->name('roles.edit');
+    Route::get('roles', [RoleController::class, 'index'])->name('roles.index');
+    Route::get('roles/create', [RoleController::class, 'create'])->name('roles.create');
     Route::put('/roles/update/{id}', [RoleController::class, 'update'])->name('roles.update');
     Route::post('roles', [RoleController::class, 'store'])->name('roles.store');
-    Route::get('/roles/{id}', [RoleController::class, 'store'])->name('roles.show');
+    Route::get('/roles/{id}', [RoleController::class, 'show'])->name('roles.show');
+    Route::delete('/roles/{id}', [RoleController::class, 'destroy'])->name('roles.delete');
+
+    
+    // Route::resource('users', UserController::class)->names([
+    //     'index','users.index',
+    //     'create','users.create'
+    // ]);
    
+    Route::get('users', [UserController::class, 'index'])->name('users.index');
+    Route::get('users/create', [UserController::class, 'create'])->name('users.create');
+    Route::get('/roles/edit/{id}', [UserController::class, 'edit'])->name('users.edit');
     Route::post('users', [UserController::class, 'store'])->name('users.store');
+    Route::delete('users/{id}', [UserController::class, 'destroy'])->name('users.delete');
+   
     
    
 });
