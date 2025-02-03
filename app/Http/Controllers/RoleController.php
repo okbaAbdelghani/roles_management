@@ -93,6 +93,7 @@ class RoleController extends Controller
      */
     public function edit($id): View
     {
+        dd("ddf");
         $role = Role::find($id);
         $allPermissions = Permission::all();
         // $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$id)
